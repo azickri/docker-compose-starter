@@ -49,13 +49,13 @@ services:
 
   mysql:
     image: mysql:latest
+    restart: always
     ports:
-      - 3306:3306
+      - '3306:3306'
     environment:
-      - MYSQL_ROOT_PASSWORD=user
-      - MYSQL_DATABASE=password
-    volumes:
-      - ./etc/mysql/data:/var/lib/mysql
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: local
+      MYSQL_PASSWORD: password
 
 networks:
   api_net:
