@@ -1,0 +1,62 @@
+version: '3.3'
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=user
+      - RABBITMQ_DEFAULT_PASS=password
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./etc/rabbitmq/data:/var/lib/rabbitmq
+
+  mongo:
+    image: mongo:4.4.3-bionic
+    restart: always
+    ports:
+      - 27018:27017
+    networks:
+      - api_net
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8082:8081
+    networks:
+      - api_net
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      - api_net
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: local
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=user
+      - MYSQL_DATABASE=password
+    volumes:
+      - ./etc/mysql/data:/var/lib/mysql
+
+networks:
+  api_net:
+    driver: bridge
