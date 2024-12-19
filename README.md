@@ -1,7 +1,19 @@
-Running:
+How To:
+
+1. Clone Repository
 
 ```bash
-docker compose up -d / docker-compose up -d
+git clone https://github.com/azickri/docker-compose-starter.git
+```
+
+2. Running
+
+```bash
+docker compose up -d
+
+or
+
+docker-compose up -d
 ```
 
 Include:
