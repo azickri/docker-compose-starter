@@ -1,4 +1,3 @@
-version: '3.3'
 services:
   rabbitmq:
     image: rabbitmq:3.11-management
@@ -14,35 +13,33 @@ services:
       - ./etc/rabbitmq/data:/var/lib/rabbitmq
 
   mongo:
-    image: mongo:4.4.3-bionic
+    image: mongo:8.0
     restart: always
     ports:
       - 27018:27017
-    networks:
-      - api_net
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 8082:8081
+    volumes:
+      - ./etc/mongo:/data/db
     networks:
       - api_net
 
   redis:
-    image: redis:latest
+    image: redis:7.2
     restart: always
     command: redis-server --requirepass password
     ports:
       - 6379:6379
+    volumes:
+      - ./etc/redis:/data/db
     networks:
       - api_net
 
   postgres:
-    image: postgres
+    image: postgres:16
     restart: always
     ports:
       - 5432:5432
+    volumes:
+      - ./etc/postgres:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -54,6 +51,8 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     ports:
       - '3306:3306'
+    volumes:
+      - ./etc/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: local
