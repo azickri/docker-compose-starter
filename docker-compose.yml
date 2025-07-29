@@ -29,7 +29,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - ./etc/redis:/data/db
+      - ./etc/redis:/var/lib/redis
     networks:
       - api_net
 
